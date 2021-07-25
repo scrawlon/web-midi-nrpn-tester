@@ -1,0 +1,55 @@
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 3em 1em;
+}
+
+h1 {
+    text-align: center;
+}
+
+.nrpn-block {
+    max-width: 600px;
+    margin: 2em auto;
+    border: 1px solid lightgray;
+    padding: 1em;
+    text-align: center;
+}
+
+.nrpn-block p {
+    border-bottom: 1px solid lightslategray;
+    padding: 0 0 1em;
+}
+
+.nrpn-block input {
+    margin: 1em 1em 1em .25em;
+    padding: .25em;
+}
+
+.nrpn-block button {
+    padding: .5em;
+    font-size: 1em;
+}
+
+#web-midi-connection-status {
+    margin: .5em auto;
+    font-weight: bold;
+    font-size: 22px;
+    color: #000;
+    text-align: center;
+}
+
+#web-midi-connection-status .error {
+    color: #ff0000;
+}
+
+#web-midi-connect-device {
+    margin: 0 auto;
+    display: block;
+}
+
+.component-value {
+    border: 1px solid lightslategray;
+    padding: 1em;
+    margin: 1em;
+}
