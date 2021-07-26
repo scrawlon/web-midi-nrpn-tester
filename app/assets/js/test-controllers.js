@@ -46,7 +46,7 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
         min="${min}" 
         max="${max}" 
         value="${min}">
-      <output>${min}</output>
+      <output for="${controllerId}">${min}</output>
     </div>      
   `;
 
