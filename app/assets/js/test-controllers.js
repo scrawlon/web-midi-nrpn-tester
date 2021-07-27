@@ -65,8 +65,6 @@ function initTestControllerEvents(controllerId) {
     const { msb, lsb, channel } = component.dataset;
 
     controller.nextElementSibling.value = value;
-    console.log({ msb, lsb, channel });
-    // console.log(`current value = ${value}`);
     sendMidiNRPN(channel, msb, lsb, value);
   });
 }

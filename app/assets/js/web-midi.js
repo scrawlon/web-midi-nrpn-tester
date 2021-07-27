@@ -2,14 +2,11 @@
 import { initTestControllerForm } from './test-controllers.js';
 
 const webMidiConnectButton = document.querySelector('#web-midi-connect-device');
+
 let inputID = false;
 let outputID = false;
 let midi = false;
 let midiDevices = {};
-let midiIn = {
-  channel: 0,
-  enabled: false
-};
 let midiStatus = {
   input: false,
   output: false
@@ -91,94 +88,10 @@ function updateMidiStatus() {
   }
 }
 
-// function onMIDIMessage(event) {
-//   if (midiIn && midiIn.enabled) {
-//     // let str = "";
-//     const eventMidiChannel = event.data && event.data[0] ? (event.data[0] & 0x0F) : false;
-//     const eventMidiCC = event.data && event.data[1] ? event.data[1] : false;
-//     const eventMidiCCValue = event.data && event.data[2] ? event.data[2] : false;
-
-//     if ((eventMidiChannel === midiIn.channel) && eventMidiCC && eventMidiCCValue) {
-//       const eventType = event.data[0] & 0xf0;
-
-//       if (eventType === 0xB0) {
-//         // updateSliderValue(eventMidiChannel, eventMidiCC, eventMidiCCValue);
-//         // updateMidiPatch(eventMidiChannel, eventMidiCC, eventMidiCCValue);
-//       }
-//     }
-//   }
-// }
-
 function onMIDIFailure(msg) {
   alert(`midi failure: ${msg}`);
   console.log(`midi failure: ${msg}`);
 }
-
-// function sendWebMidiEvent(selectedMidiChannel, selectedMidiCC, selectedMidiCCValue) {
-//   let selectedMidiChannelHex = parseInt(selectedMidiChannel).toString(16);
-//   let output = false;
-
-//   if (midi && midi.outputs && outputID) {
-//     output = midi.outputs.get(outputID);
-
-//     if (output) {
-//       output.send(["0xB" + selectedMidiChannelHex, selectedMidiCC, selectedMidiCCValue]);
-//     }
-//   }
-
-//   // Always check/update MIDI status
-//   initWebMidi();
-// }
-
-// function updateSliderValue(midiChannel, midiCC, midiCCValue) {
-//   let slider = document.querySelectorAll(`[data-midi-channel='${midiChannel}'][data-midi-cc='${midiCC}']`)[0];
-
-//   slider.value = midiCCValue;
-
-//   markControlChange(midiChannel, midiCC, slider);
-// }
-
-function initSliderEvents() {
-  let ranges = document.getElementsByTagName("input");
-
-  for (var i = 0; i < ranges.length; i++) {
-    if (ranges[i].type === 'range') {
-      ranges[i].addEventListener('change', function () {
-        handlePatchChanges(this, this);
-      });
-    }
-  }
-}
-
-// function handlePatchChanges(changedOption, control) {
-//   const selectedMidiCC = getComponentMidiCC(control);
-//   const selectedMidiCCValue = changedOption.value;
-//   const selectedMidiChannel = getComponentMidiChannel(control);
-
-//   // console.log({ changedOption, control });
-//   // console.log({ parent: control.closest('.component-section') });
-//   console.log({ selectedMidiChannel });
-
-//   markControlChange(selectedMidiChannel, selectedMidiCC, control);
-//   // updateMidiPatch(selectedMidiChannel, selectedMidiCC, selectedMidiCCValue);
-//   sendWebMidiEvent(selectedMidiChannel, selectedMidiCC, selectedMidiCCValue);
-// }
-
-// function sendWebMidiEvent(selectedMidiChannel, selectedMidiCC, selectedMidiCCValue) {
-//   let selectedMidiChannelHex = parseInt(selectedMidiChannel).toString(16);
-//   let output = false;
-
-//   if (midi && midi.outputs && outputID) {
-//     output = midi.outputs.get(outputID);
-
-//     if (output) {
-//       output.send(["0xB" + selectedMidiChannelHex, selectedMidiCC, selectedMidiCCValue]);
-//     }
-//   }
-
-//   // Always check/update MIDI status
-//   initWebMidi();
-// }
 
 function sendMidiNRPN(channel, msb, lsb, value) {
   let channelHex = parseInt(channel - 1).toString(16);
