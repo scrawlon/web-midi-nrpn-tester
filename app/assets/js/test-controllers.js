@@ -1,4 +1,6 @@
 
+import { sendMidiNRPN } from "./web-midi.js";
+
 const nrpnControllerValuesForm = document.querySelector('form#nrpn-controller-values');
 const nrpnTestControllers = document.querySelector('#nrpn-test-controllers');
 
@@ -60,11 +62,12 @@ function initTestControllerEvents(controllerId) {
     const { target: controller } = event;
     const value = controller.value;
     const component = controller.closest('.component-value');
-    const { msb, lsb } = component.dataset;
+    const { msb, lsb, channel } = component.dataset;
 
     controller.nextElementSibling.value = value;
-    console.log({ msb, lsb });
+    console.log({ msb, lsb, channel });
     // console.log(`current value = ${value}`);
+    sendMidiNRPN(channel, msb, lsb, value);
   });
 }
 
