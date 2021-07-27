@@ -54,7 +54,7 @@ h1 {
     margin: 1em;
 }
 
-.component-value range {
+.component-value input[type='range'] {
     vertical-align: middle;
 }
 
