@@ -52,19 +52,27 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
     </div>      
   `;
 
-  nrpnTestControllers.innerHTML += controllerHtml;
+  nrpnTestControllers.insertAdjacentHTML('beforeend', controllerHtml);
 }
 
 function initTestControllerEvents(controllerId) {
   const testController = nrpnTestControllers.querySelector(`#${controllerId}`);
 
+  /* update slider display value */
+  testController.addEventListener('input', function (event) {
+    const { target: controller } = event;
+    const value = controller.value;
+
+    controller.nextElementSibling.value = value;
+  });
+
+  /* send MIDI event */
   testController.addEventListener('input', function (event) {
     const { target: controller } = event;
     const value = controller.value;
     const component = controller.closest('.component-value');
     const { msb, lsb, channel } = component.dataset;
 
-    controller.nextElementSibling.value = value;
     sendMidiNRPN(channel, msb, lsb, value);
   });
 }

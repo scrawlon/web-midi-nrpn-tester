@@ -95,9 +95,6 @@ function sendMidiNRPN(channel, msb, lsb, value) {
       output.send(["0xB" + channelHex, 6, value]);
     }
   }
-
-  // Always check/update MIDI status
-  initWebMidi();
 }
 
 export { initWebMidi, sendMidiNRPN }
