@@ -2,8 +2,10 @@
 import { initTestControllerForm } from './test-controllers.js';
 
 const webMidiConnectButton = document.querySelector('#web-midi-connect-device');
+const messageHolder = document.getElementById('web-midi-connection-status');
+const midiConnectButton = document.querySelector('#web-midi-connect-device');
 
-let inputID = false;
+// let inputID = false;
 let outputID = false;
 let midi = false;
 let midiDevices = {};
@@ -34,22 +36,7 @@ function initWebMidiEvents() {
 
 function onMIDISuccess(MIDIAccess) {
   midi = MIDIAccess;
-  midiDevices.inputs = getMidiDevices(midi, 'inputs');
   midiDevices.outputs = getMidiDevices(midi, 'outputs');
-
-  if (!midiDevices.inputs.size) {
-    midiStatus.input = false;
-    updateMidiStatus();
-  } else {
-    midiDevices.inputs.forEach(function (device) {
-      if (device.name.toLowerCase() === 'circuit') {
-        midiStatus.input = true;
-        updateMidiStatus();
-        device.onmidimessage = onMIDIMessage;
-        inputID = device.id;
-      }
-    });
-  }
 
   if (!midiDevices.outputs.size) {
     midiStatus.output = false;
@@ -72,16 +59,13 @@ function getMidiDevices(midi, connectionType) {
 }
 
 function updateMidiStatus() {
-  const messageHolder = document.getElementById('web-midi-connection-status');
-  const midiInText = midiStatus.input ? '&#10003;' : '<span class="error">x</span>';
   const midiOutText = midiStatus.output ? '&#10003;' : '<span class="error">x</span>';
-  const midiConnectButton = document.querySelector('#web-midi-connect-device');
 
   messageHolder.innerHTML = `
-        MIDI IN: ( ${midiInText} ) MIDI OUT: ( ${midiOutText} ) <br />
-      `;
+    MIDI OUT: ( ${midiOutText} ) <br />
+  `;
 
-  if (!midiStatus.input || !midiStatus.output) {
+  if (!midiStatus.output) {
     midiConnectButton.style.visibility = 'visible';
   } else {
     midiConnectButton.style.visibility = 'hidden';
