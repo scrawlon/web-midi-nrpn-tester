@@ -35,6 +35,7 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
       data-msb="${msb}" 
       data-lsb="${lsb}" 
       data-channel="${channel}"> 
+      <div class="close">x</div>
       <label for="channel-${controllerId}">MIDI Channel</label>
       <input type="number" name="channel-${controllerId}" id="channel-${controllerId}" min="1" max="16" value="${channel}"/>
       <label for="${controllerId}">MSB ${msb} : LSB ${lsb} | (${min} - ${max})</label><br>
@@ -54,8 +55,12 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
 
 function initTestControllerEvents(controllerId) {
   const testController = nrpnTestControllers.querySelector(`#${controllerId}`);
+  const component = testController.closest('.component-value');
+  const channel = component.querySelector('[name^="channel"]');
+  const { msb, lsb } = component.dataset;
+  const closeButton = component.querySelector('.close');
 
-  /* update slider display value */
+  /* update slider display value in realtime*/
   testController.addEventListener('input', function (event) {
     const { target: controller } = event;
     const value = controller.value;
@@ -67,11 +72,12 @@ function initTestControllerEvents(controllerId) {
   testController.addEventListener('change', function (event) {
     const { target: controller } = event;
     const value = controller.value;
-    const component = controller.closest('.component-value');
-    const { msb, lsb } = component.dataset;
-    const channel = component.querySelector('[name^="channel"]');
 
     sendMidiNRPN(channel.value, msb, lsb, value);
+  });
+
+  closeButton.addEventListener('click', function (event) {
+    component.remove();
   });
 }
 

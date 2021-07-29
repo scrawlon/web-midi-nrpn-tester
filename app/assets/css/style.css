@@ -52,6 +52,7 @@ h1 {
     border: 1px solid lightslategray;
     padding: 1em;
     margin: 1em;
+    position: relative;
 }
 
 .component-value input[type='range'] {
@@ -64,4 +65,15 @@ h1 {
     margin: .5em .5em;
     min-width: 2.5em;
     display: inline-block;    
+}
+
+.component-value .close {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+    padding: .1em .35em;
+    border-radius: 1em;
+    color: white;
+    background: red;
+    cursor: pointer;
 }
