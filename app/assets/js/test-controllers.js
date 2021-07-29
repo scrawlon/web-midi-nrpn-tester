@@ -23,15 +23,10 @@ function initTestControllerForm() {
 
 function addTestController(nrpnControllerValues) {
   const { msb, lsb, min, max, channel } = nrpnControllerValues;
-  const controllerId = `nrpn-${msb}-${lsb}-${min}-${max}-${channel}`;
-  const duplicateId = nrpnTestControllers.querySelector(`#${controllerId}`);
+  const controllerId = `nrpn-${Date.now()}`;
 
-  if (!duplicateId) {
-    renderTestControllerHtml(msb, lsb, min, max, channel, controllerId);
-    initTestControllerEvents(controllerId);
-  } else {
-    console.log('controller already exists');
-  }
+  renderTestControllerHtml(msb, lsb, min, max, channel, controllerId);
+  initTestControllerEvents(controllerId);
 }
 
 function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
@@ -40,6 +35,8 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
       data-msb="${msb}" 
       data-lsb="${lsb}" 
       data-channel="${channel}"> 
+      <label for="channel-${controllerId}">MIDI Channel</label>
+      <input type="number" name="channel-${controllerId}" id="channel-${controllerId}" min="1" max="16" value="${channel}"/>
       <label for="${controllerId}">MSB ${msb} : LSB ${lsb} | (${min} - ${max})</label><br>
       <input 
         type="range" 
@@ -47,7 +44,7 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
         id="${controllerId}" 
         min="${min}" 
         max="${max}" 
-        value="${min}">
+        value="${min}"/>
       <output for="${controllerId}">${min}</output>
     </div>      
   `;
@@ -67,13 +64,14 @@ function initTestControllerEvents(controllerId) {
   });
 
   /* send MIDI event */
-  testController.addEventListener('input', function (event) {
+  testController.addEventListener('change', function (event) {
     const { target: controller } = event;
     const value = controller.value;
     const component = controller.closest('.component-value');
-    const { msb, lsb, channel } = component.dataset;
+    const { msb, lsb } = component.dataset;
+    const channel = component.querySelector('[name^="channel"]');
 
-    sendMidiNRPN(channel, msb, lsb, value);
+    sendMidiNRPN(channel.value, msb, lsb, value);
   });
 }
 
