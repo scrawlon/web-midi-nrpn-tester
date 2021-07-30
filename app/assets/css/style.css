@@ -9,7 +9,7 @@ h1 {
 }
 
 .nrpn-block {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 2em auto;
     border: 1px solid lightgray;
     padding: 1em;
@@ -53,6 +53,7 @@ h1 {
     padding: 1em;
     margin: 1em;
     position: relative;
+    display: inline-block;
 }
 
 .component-value input[type='range'] {
