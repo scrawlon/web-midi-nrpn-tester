@@ -28,7 +28,6 @@ function addTestController(nrpnControllerValues) {
   const controllerId = `nrpn-${Date.now()}`;
 
   renderTestControllerHtml(msb, lsb, min, max, channel, controllerId);
-  initTestControllerEvents(controllerId);
 }
 
 function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
@@ -56,7 +55,7 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
   nrpnTestControllers.insertAdjacentHTML('beforeend', controllerHtml);
 }
 
-function initTestControllerEvents(controllerId) {
+function initTestControllerEvents() {
   nrpnTestControllers.addEventListener('input', function (event) {
     const { target: controller } = event;
 
