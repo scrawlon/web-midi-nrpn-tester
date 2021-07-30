@@ -5,6 +5,8 @@ const nrpnControllerValuesForm = document.querySelector('form#nrpn-controller-va
 const nrpnTestControllers = document.querySelector('#nrpn-test-controllers');
 
 function initTestControllerForm() {
+  initTestControllerEvents();
+
   nrpnControllerValuesForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -43,10 +45,11 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
         type="range" 
         name="${controllerId}" 
         id="${controllerId}" 
+        class="midi-send"
         min="${min}" 
         max="${max}" 
         value="${min}"/>
-      <output for="${controllerId}">${min}</output>
+      <output name="display" for="${controllerId}">${min}</output>
     </div>      
   `;
 
@@ -54,31 +57,46 @@ function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
 }
 
 function initTestControllerEvents(controllerId) {
-  const testController = nrpnTestControllers.querySelector(`#${controllerId}`);
-  const component = testController.closest('.component-value');
+  nrpnTestControllers.addEventListener('input', function (event) {
+    const { target: controller } = event;
+
+    /* update slider display value in realtime*/
+    if (controller && controller.classList.contains('midi-send')) {
+      controller.nextElementSibling.value = controller.value;
+    }
+  });
+
+  nrpnTestControllers.addEventListener('change', function (event) {
+    const { target: controller } = event;
+
+    /* send MIDI event */
+    if (controller && controller.classList.contains('midi-send')) {
+      sendMidiControllerValues(controller);
+    }
+  });
+
+  nrpnTestControllers.addEventListener('click', function (event) {
+    const { target: controller } = event;
+
+    /* Remove test controller */
+    if (controller && controller.classList.contains('close')) {
+      const component = controller.closest('.component-value');
+
+      if (component) {
+        component.remove();
+      }
+    }
+  });
+}
+
+function sendMidiControllerValues(controller) {
+  const component = controller.closest('.component-value');
   const channel = component.querySelector('[name^="channel"]');
   const { msb, lsb } = component.dataset;
-  const closeButton = component.querySelector('.close');
 
-  /* update slider display value in realtime*/
-  testController.addEventListener('input', function (event) {
-    const { target: controller } = event;
-    const value = controller.value;
-
-    controller.nextElementSibling.value = value;
-  });
-
-  /* send MIDI event */
-  testController.addEventListener('change', function (event) {
-    const { target: controller } = event;
-    const value = controller.value;
-
-    sendMidiNRPN(channel.value, msb, lsb, value);
-  });
-
-  closeButton.addEventListener('click', function (event) {
-    component.remove();
-  });
+  if (channel, msb, lsb) {
+    sendMidiNRPN(parseInt(channel.value), parseInt(msb), parseInt(lsb), parseInt(controller.value));
+  }
 }
 
 export { initTestControllerForm }

@@ -17,26 +17,15 @@ let midiStatus = {
 function initWebMidi() {
   if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
-    initWebMidiEvents();
   } else {
     // Web Midi not supported, or user denied access
     onMIDIFailure('Your browser does not support web midi. See here for a list of supported browsers: https://caniuse.com/?search=web%20midi');
   }
 }
 
-function initWebMidiEvents() {
-  webMidiConnectButton.addEventListener('click', function () {
-    if (!midiStatus.input || !midiStatus.output) {
-      initWebMidi();
-    }
-  });
-
-  initTestControllerForm();
-}
-
 function onMIDISuccess(MIDIAccess) {
   midi = MIDIAccess;
-  midiDevices.outputs = getMidiDevices(midi, 'outputs');
+  midiDevices.outputs = getMidiDevices('outputs');
 
   if (!midiDevices.outputs.size) {
     midiStatus.output = false;
@@ -50,9 +39,11 @@ function onMIDISuccess(MIDIAccess) {
       }
     });
   }
+
+  initWebMidiEvents();
 }
 
-function getMidiDevices(midi, connectionType) {
+function getMidiDevices(connectionType) {
   if (midi && midi[connectionType] && midi.size !== 0) {
     return midi[connectionType];
   }
@@ -64,12 +55,14 @@ function updateMidiStatus() {
   messageHolder.innerHTML = `
     MIDI OUT: ( ${midiOutText} ) <br />
   `;
+}
 
-  if (!midiStatus.output) {
-    midiConnectButton.style.visibility = 'visible';
-  } else {
-    midiConnectButton.style.visibility = 'hidden';
+function initWebMidiEvents() {
+  if (midi) {
+    midi.addEventListener('statechange', () => initWebMidi());
   }
+
+  initTestControllerForm();
 }
 
 function onMIDIFailure(msg) {
@@ -78,21 +71,21 @@ function onMIDIFailure(msg) {
 }
 
 function sendMidiNRPN(channel, msb, lsb, value) {
-  let channelHex = parseInt(channel - 1).toString(16);
   let output = false;
 
   if (midi && midi.outputs && outputID) {
     output = midi.outputs.get(outputID);
 
     if (output) {
+      console.log({ channel, msb, lsb, value });
       /* MSB */
-      output.send(["0xB" + channelHex, 99, msb]);
+      output.send([0xB0 + (channel - 1), 99, msb]);
 
       /* LSB */
-      output.send(["0xB" + channelHex, 98, lsb]);
+      output.send([0xB0 + (channel - 1), 98, lsb]);
 
       /* value */
-      output.send(["0xB" + channelHex, 6, value]);
+      output.send([0xB0 + (channel - 1), 6, value]);
     }
   }
 }
