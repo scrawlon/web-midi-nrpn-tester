@@ -26,11 +26,6 @@ function initTestControllerForm() {
 function addTestController(nrpnControllerValues) {
   const { msb, lsb, min, max, channel } = nrpnControllerValues;
   const controllerId = `nrpn-${Date.now()}`;
-
-  renderTestControllerHtml(msb, lsb, min, max, channel, controllerId);
-}
-
-function renderTestControllerHtml(msb, lsb, min, max, channel, controllerId) {
   const controllerHtml = `
     <div class="component-value" 
       data-msb="${msb}" 
