@@ -54,7 +54,7 @@ function initTestControllerEvents() {
   nrpnTestControllers.addEventListener('input', function (event) {
     const { target: controller } = event;
 
-    /* update slider display value in realtime*/
+    /* update slider display value in realtime */
     if (controller && controller.classList.contains('midi-send')) {
       controller.nextElementSibling.value = controller.value;
     }

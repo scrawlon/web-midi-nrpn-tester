@@ -13,6 +13,7 @@ let midiStatus = {
   input: false,
   output: false
 };
+let loadTestControllerForm = true;
 
 function initWebMidi() {
   if (navigator.requestMIDIAccess) {
@@ -62,7 +63,10 @@ function initWebMidiEvents() {
     midi.addEventListener('statechange', () => initWebMidi());
   }
 
-  initTestControllerForm();
+  if (loadTestControllerForm) {
+    initTestControllerForm();
+    loadTestControllerForm = false;
+  }
 }
 
 function onMIDIFailure(msg) {
@@ -77,7 +81,6 @@ function sendMidiNRPN(channel, msb, lsb, value) {
     output = midi.outputs.get(outputID);
 
     if (output) {
-      console.log({ channel, msb, lsb, value });
       /* MSB */
       output.send([0xB0 + (channel - 1), 99, msb]);
 
