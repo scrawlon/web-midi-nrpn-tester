@@ -144,8 +144,6 @@ function sendMidiControllerValues(controller) {
   const channel = channelInput.value;
   const { msb, lsb } = component.dataset;
 
-  console.log({ channel, msb, lsb, value });
-
   if (channel, msb, lsb) {
     sendMidiNRPN(parseInt(channel), parseInt(msb), parseInt(lsb), parseInt(value));
   }

@@ -1,11 +1,10 @@
 
 import { initTestControllerForm } from './test-controllers.js';
 
-const webMidiConnectButton = document.querySelector('#web-midi-connect-device');
-const messageHolder = document.getElementById('web-midi-connection-status');
-const midiConnectButton = document.querySelector('#web-midi-connect-device');
+const messageHolder = document.querySelector('#web-midi-connection-status');
+const nrpnMidiEventStatus = document.querySelector('#nrpn-midi-event-status');
+const nrpnLastMidiEvent = nrpnMidiEventStatus.querySelector('#last-midi-event');
 
-// let inputID = false;
 let outputID = false;
 let midi = false;
 let midiDevices = {};
@@ -78,19 +77,52 @@ function sendMidiNRPN(channel, msb, lsb, value) {
   let output = false;
 
   if (midi && midi.outputs && outputID) {
+    let midiChannel = 0xB0 + (channel - 1);
+
     output = midi.outputs.get(outputID);
 
     if (output) {
       /* MSB */
-      output.send([0xB0 + (channel - 1), 99, msb]);
+      output.send([midiChannel, 99, msb]);
 
       /* LSB */
-      output.send([0xB0 + (channel - 1), 98, lsb]);
+      output.send([midiChannel, 98, lsb]);
 
       /* value */
-      output.send([0xB0 + (channel - 1), 6, value]);
+      output.send([midiChannel, 6, value]);
     }
   }
+
+  updateMidiEventStatus(channel, msb, lsb, value);
+}
+
+function updateMidiEventStatus(midiChannel, msb, lsb, value) {
+  let midiEventStatusHtml = `
+    MIDI Channel: ${midiChannel}<br />
+  
+    <table>
+      <tbody>
+        <tr>
+          <th scope="row">MSB</th>
+          <td>CC 99</td>
+          <td>value ${msb}</td>
+        </tr>
+        <tr>
+          <th scope="row">LSB</th>
+          <td>CC 98</td>
+          <td>value ${lsb}</td>
+        </tr>
+        <tr>
+          <th scope="row">Value</th>
+          <td>CC 6</td>
+          <td>value ${value}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+  nrpnLastMidiEvent.innerHTML = '';
+  nrpnLastMidiEvent.insertAdjacentHTML('beforeend', midiEventStatusHtml);
+  nrpnMidiEventStatus.classList.remove('hidden');
 }
 
 export { initWebMidi, sendMidiNRPN }
