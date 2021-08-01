@@ -26,7 +26,12 @@ h1 {
     padding: .25em;
 }
 
-.nrpn-block button {
+.nrpn-block input[type="radio"] {
+    margin: 1em .5em 1em 2em;
+}
+
+.nrpn-block button, .nrpn-block [type="button"] {
+    margin: 1em 1em 0;
     padding: .5em;
     font-size: 1em;
 }
@@ -60,7 +65,7 @@ h1 {
     vertical-align: middle;
 }
 
-.component-value output {
+.component-value output, .component-value select {
     border: 1px solid black;
     padding: .5em;
     margin: .5em .5em;
