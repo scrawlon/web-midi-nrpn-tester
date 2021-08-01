@@ -7,28 +7,6 @@ const nrpnTestControllers = document.querySelector('#nrpn-test-controllers');
 function initTestControllerForm() {
   initTestControllerCreateButtons();
   initTestControllerEvents();
-
-  // nrpnControllerValuesForm.addEventListener('click', function (event) {
-  //   event.preventDefault();
-
-  //   const { target } = event;
-
-
-  //   if (target.type === 'button') {
-  //     addTestController(target.value);
-  //   }
-
-  //   // const nrpnControllerValuesInputs = new FormData(event.target);
-  //   // let nrpnControllerValues = {};
-
-  //   // for (var input of nrpnControllerValuesInputs.entries()) {
-  //   //   const [key, value] = input;
-
-  //   //   nrpnControllerValues[key] = value;
-  //   // };
-
-  //   // addTestController(nrpnControllerValues);
-  // });
 }
 
 function initTestControllerCreateButtons() {
@@ -116,13 +94,13 @@ function getControllerHtml(controllerType, controllerId, min, max) {
     case 'slider':
       return `
         <label for="${controllerId}">SEND MIDI</label>
-        <input type="range" name="${controllerId}" id="${controllerId}" class="midi-send" min="${min}"  max="${max}" value="${min}"/>
+        <input class="midi-send" type="range" name="${controllerId}" id="${controllerId}" min="${min}"  max="${max}" value="${min}"/>
         <output name="display" for="${controllerId}">${min}</output>              
       `;
     case 'select':
       return `
         <label for="${controllerId}">SEND MIDI</label>
-        <select name="${controllerId}" id="${controllerId}" class="midi-send">
+        <select class="midi-send" name="${controllerId}" id="${controllerId}">
         ${(() => {
           let optionsHtml = '';
 
@@ -139,14 +117,14 @@ function getControllerHtml(controllerType, controllerId, min, max) {
     `;
     case 'radio':
       return `
-        <label for="${controllerId}">SEND MIDI</label>
+        SEND MIDI
         ${(() => {
           let radioGroupHtml = '';
 
           for (let i = min; i <= max; i++) {
             radioGroupHtml += `
               <label>
-                <input type="radio" id="${controllerId}-choice-${i}" name="${controllerId}-choice" value="${i}" ${i === min ? "checked" : ""}>
+                <input class="midi-send" type="radio" id="${controllerId}-choice-${i}" name="${controllerId}" value="${i}" ${i === min ? "checked" : ""}>
                 ${i}
               </label>
             `;
@@ -160,14 +138,16 @@ function getControllerHtml(controllerType, controllerId, min, max) {
 }
 
 function sendMidiControllerValues(controller) {
+  const value = controller.value;
   const component = controller.closest('.component-value');
-  const channel = component.querySelector('[name^="channel"]');
+  const channelInput = component.querySelector('[name^="channel"]');
+  const channel = channelInput.value;
   const { msb, lsb } = component.dataset;
 
-  console.log({ controller, channel, msb, lsb });
+  console.log({ channel, msb, lsb, value });
 
   if (channel, msb, lsb) {
-    sendMidiNRPN(parseInt(channel.value), parseInt(msb), parseInt(lsb), parseInt(controller.value));
+    sendMidiNRPN(parseInt(channel), parseInt(msb), parseInt(lsb), parseInt(value));
   }
 }
 
