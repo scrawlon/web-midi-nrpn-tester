@@ -54,8 +54,8 @@ Open the application page in your web browser:
 *Google Chrome is recommended, but check 
 [caniuse.com for more info on browser support.](https://caniuse.com/?search=web%20midi)*
 
-### 2. Connect MIDI Device
-Connect your external MIDI device to your computer. Once connected, the "MIDI OUT" display at the top of the screen should change from a red "x" to a "&#10003;".
+### 2. Connect a MIDI Device
+Connect an external MIDI device to your computer. Once connected, the "MIDI OUT" display at the top of the screen should change from a red "x" to a "&#10003;".
 
 I'll be using the Novation Circuit as an example in this guide. It uses a USB cable to connect to a computer.
 
