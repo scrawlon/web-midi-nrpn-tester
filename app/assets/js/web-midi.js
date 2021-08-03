@@ -90,10 +90,10 @@ function sendMidiNRPN(channel, msb, lsb, value) {
 
       /* value */
       output.send([midiChannel, 6, value]);
+
+      updateMidiEventStatus(channel, msb, lsb, value);
     }
   }
-
-  updateMidiEventStatus(channel, msb, lsb, value);
 }
 
 function updateMidiEventStatus(midiChannel, msb, lsb, value) {
