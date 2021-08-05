@@ -1,8 +1,6 @@
 # Web MIDI NRPN Tester
 
-Simple app for learning about NRPN MIDI events. You can create new 
-NRPN MIDI controllers, and use them to send NRPN events to a connected MIDI device. 
-This app is powered by the Web MIDI API via JavaScript.
+Simple app for creating MIDI NRPN controllers and sending NRPN messages to external devices via Web MIDI.
 
 ---
 **NOTE:** *Web MIDI is not supported in all browsers. Google Chrome is recommended, but check 
