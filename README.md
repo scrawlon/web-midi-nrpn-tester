@@ -46,8 +46,7 @@ This app allows you to experiment with MIDI NRPNs by:
 - Monitoring the MIDI NRPN events as they're being transmitted to your external MIDI device
 
 ### 1.  Open the App
-Open the application page in your web browser:
-[link](link).
+[Click here to launch the application.](https://scrawlon.com/web-midi-nrpn-tester/app/)
 
 *Google Chrome is recommended, but check 
 [caniuse.com for more info on browser support.](https://caniuse.com/?search=web%20midi)*
