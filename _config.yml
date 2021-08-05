@@ -18,7 +18,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Simple app for creating MIDI NRPN controllers 
   and sending NRPN messages to external devices via Web MIDI..
 show_downloads: true
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/web-midi-nrpn-tester" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scrawlon
 github_username:  scrawlon
