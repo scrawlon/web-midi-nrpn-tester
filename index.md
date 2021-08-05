@@ -8,6 +8,5 @@ layout: default
 
 For full details and instructions, view the Github link above.
 
-Otherwise, 
-<a href="{{ '/app' | relative_url }}">launch the Web MIDI NRPN Tester app now.</a>
+Otherwise, <a href="{{ '/app' | relative_url }}">launch the Web MIDI NRPN Tester app now.</a>
 
